@@ -158,6 +158,13 @@
     text-underline-offset: 2px;
   }
   .item-title.plain { cursor: default; }
+  .item-title a {
+    color: var(--text);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-color: var(--faint);
+  }
+  .item-title a:hover { text-decoration-color: var(--text); }
 
   .item-time {
     font-size: 15px;
@@ -181,6 +188,11 @@
     text-decoration-color: var(--faint);
   }
   .item.done .item-title.plain { color: var(--faint); }
+  .item.done .item-title a {
+    color: var(--faint);
+    text-decoration: line-through;
+    text-decoration-color: var(--faint);
+  }
   .item.done .item-why { color: var(--border); }
   .item.done .item-time { display: none; }
 
@@ -331,7 +343,7 @@
 <div class="item">
   <input type="checkbox" id="s2d">
   <div class="item-content">
-    <span class="item-title plain">Build AI agent from scratch: <a href="https://www.leoniemonigatti.com/blog/ai-agent-from-scratch-in-python.html" target="_blank" rel="noopener">Article</a> and <a href="https://youtu.be/mYo7UFwnW1k" target="_blank" rel="noopener">Video</a><span class="item-time">45m article · 18m video</span></span>
+    <a class="item-title" href="https://www.youtube.com/watch?v=bZzyPscbtI8" target="_blank" rel="noopener">Dave Ebbelaar: Building AI Agents in Pure Python (raw OpenAI SDK — tools, memory, structured output)<span class="item-time">46m</span></a>
   </div>
 </div>
 
