@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI design learning plan</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='white'/%3E%3Cpath d='M16 4 Q18 14 28 16 Q18 18 16 28 Q14 18 4 16 Q14 14 16 4 Z' fill='%23181818'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #fafaf9;
+    --text: #181818;
+    --muted: #999;
+    --faint: #cfcfcd;
+    --border: #ececeb;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    max-width: 660px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+
+  h1 {
+    font-size: 20px;
+    margin: 0 0 7px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  .progress-track {
+    height: 2px;
+    background: var(--border);
+    border-radius: 1px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--text);
+    transition: width 0.35s ease;
+    width: 0;
+  }
+  .stats {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0 0 32px;
+  }
+
+  .intro {
+    font-size: 15px;
+    color: var(--text);
+    margin: 0 0 18px;
+    line-height: 1.55;
+    font-weight: 400;
+  }
+  .intro p { margin: 0 0 4px; }
+  .intro p:last-child { margin: 0; }
+  .intro strong { font-weight: 400; color: var(--text); }
+
+  h2 {
+    font-size: 15px;
+    font-weight: 500;
+    margin: 40px 0 12px;
+    cursor: pointer;
+    user-select: none;
+    line-height: 1.45;
+  }
+  h2::after {
+    content: '';
+    display: inline-block;
+    vertical-align: middle;
+    width: 10px;
+    height: 10px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6' fill='none'%3E%3Cpath d='M1 1L5 4.5L9 1' stroke='%23999' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 9px 5px;
+    margin-left: 6px;
+    margin-bottom: 2px;
+    transition: transform 0.2s ease;
+  }
+  h2.collapsed::after {
+    transform: rotate(-90deg);
+  }
+  h2 .time {
+    font-size: 15px;
+    color: var(--muted);
+    font-weight: 350;
+    margin-left: 4px;
+  }
+  h3 {
+    font-size: 13px;
+    font-weight: 400;
+    margin: 28px 0 8px;
+    color: var(--muted);
+  }
+  .section-note {
+    font-size: 13px;
+    color: var(--muted);
+    margin: -6px 0 14px;
+    font-weight: 400;
+  }
+
+  .item {
+    display: flex;
+    gap: 9px;
+    padding: 6px 0;
+    align-items: flex-start;
+  }
+
+  input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border: 1.5px solid var(--faint);
+    border-radius: 4px;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-top: 5px;
+    transition: border-color 0.15s, background-color 0.15s;
+    background: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  input[type="checkbox"]:hover:not(:checked) {
+    border-color: #a0a0a0;
+  }
+  input[type="checkbox"]:checked {
+    background-color: var(--text);
+    border-color: var(--text);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='6' viewBox='0 0 8 6' fill='none'%3E%3Cpath d='M1 3L2.8 5L7 1' stroke='%23fafaf9' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-size: 9px 7px;
+  }
+
+  .item-content { flex: 1; min-width: 0; }
+
+  .item-title {
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 400;
+  }
+  a.item-title:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .item-title.plain { cursor: default; }
+
+  .item-time {
+    font-size: 15px;
+    color: var(--muted);
+    margin-left: 7px;
+    font-weight: 350;
+  }
+  .item-why {
+    display: block;
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 3px;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+  .item-why strong { font-weight: 500; color: #555; }
+
+  .item.done .item-title {
+    color: var(--faint);
+    text-decoration: line-through;
+    text-decoration-color: var(--faint);
+  }
+  .item.done .item-title.plain { color: var(--faint); }
+  .item.done .item-why { color: var(--border); }
+  .item.done .item-time { display: none; }
+
+  .controls {
+    margin-top: 52px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .footer-note { font-size: 13px; color: var(--muted); }
+  #sync-indicator {
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  #sync-indicator.show { opacity: 1; }
+
+  button.reset {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--muted);
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-color: var(--faint);
+  }
+  button.reset:hover { color: var(--text); text-decoration-color: var(--text); }
+
+  @media (max-width: 600px) {
+    body { padding: 36px 18px 64px; }
+  }
+</style>
+</head>
+<body>
+
+<h1>AI design learning plan</h1>
+
+<div class="progress-track"><div class="progress-fill" id="progress"></div></div>
+<div class="stats" id="stats">0 of 0 done</div>
+
+<div class="intro">
+  <p>A curated curriculum for product designers moving into AI. Ruthlessly filtered for <strong>information density per minute</strong>. Work top to bottom — progress saves to your browser. <a href="https://github.com/daria-intercom/ai-learning-plan-public" target="_blank" rel="noopener">Source on GitHub</a>.</p>
+</div>
+
+<h2>Listen while you walk / run <span class="time"></span></h2>
+
+<div class="item">
+  <input type="checkbox" id="l1">
+  <div class="item-content">
+    <a class="item-title" href="https://vanishinggradients.fireside.fm/50" target="_blank" rel="noopener">Vanishing Gradients Ep 50: Hamel Husain — Field Guide<span class="item-time">1h</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="l2">
+  <div class="item-content">
+    <a class="item-title" href="https://vanishinggradients.fireside.fm/60" target="_blank" rel="noopener">Vanishing Gradients Ep 60: 10 Things I Hate About AI Evals<span class="item-time">1h 13m</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="l4">
+  <div class="item-content">
+    <a class="item-title" href="https://www.anthropic.com/news/building-more-effective-ai-agents-podcast" target="_blank" rel="noopener">Anthropic Podcast: Building More Effective AI Agents (Erik Schluntz)<span class="item-time">45m</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="mlg35">
+  <div class="item-content">
+    <a class="item-title" href="https://ocdevel.com/mlg/35" target="_blank" rel="noopener">MLG 035: Large Language Models 2 — in-context learning, RAG, agents<span class="item-time">~1h</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="ps8">
+  <div class="item-content">
+    <a class="item-title" href="https://cheekypint.substack.com/p/bret-taylor-of-sierra-on-ai-agents" target="_blank" rel="noopener">Cheeky Pint: Bret Taylor on AI agents and outcome-based pricing<span class="item-time">50m</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="lr2">
+  <div class="item-content">
+    <a class="item-title" href="https://www.lennysnewsletter.com/p/building-eval-systems-that-improve" target="_blank" rel="noopener">Lenny's Reads: Building eval systems that improve your AI product — Hamel &amp; Shreya<span class="item-time">25m</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="lr3">
+  <div class="item-content">
+    <a class="item-title" href="https://www.lennysnewsletter.com/p/why-your-ai-product-needs-a-different" target="_blank" rel="noopener">Lenny's Reads: Why your AI product needs a different development lifecycle — Reganti &amp; Badam<span class="item-time">25m</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="ls1">
+  <div class="item-content">
+    <a class="item-title" href="https://www.latent.space/p/notion" target="_blank" rel="noopener">Latent Space: Notion's Token Town — Sarah Sachs &amp; Simon Last<span class="item-time">1h 17m</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="ls2">
+  <div class="item-content">
+    <a class="item-title" href="https://www.latent.space/p/harness-eng" target="_blank" rel="noopener">Latent Space: Extreme Harness Engineering — Ryan Lopopolo, OpenAI<span class="item-time">1h 13m</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="ls4">
+  <div class="item-content">
+    <a class="item-title" href="https://www.latent.space/p/turbopuffer" target="_blank" rel="noopener">Latent Space: Retrieval After RAG — Simon Eskildsen, Turbopuffer<span class="item-time">1h</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="dh1">
+  <div class="item-content">
+    <a class="item-title" href="https://www.youtube.com/watch?v=8kMaTybvDUw" target="_blank" rel="noopener">12-Factor Agents — Dex Horthy, HumanLayer<span class="item-time">30m</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="cb1">
+  <div class="item-content">
+    <a class="item-title" href="https://sequoiacap.com/podcast/training-data-clay-bavor/" target="_blank" rel="noopener">Training Data (Sequoia): Clay Bavor — Sierra<span class="item-time">50m</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="cw1">
+  <div class="item-content">
+    <a class="item-title" href="https://sequoiacap.com/podcast/why-ai-will-create-abundance-and-transform-customer-experience-cresta-ceo-ping-wu/" target="_blank" rel="noopener">Training Data (Sequoia): Cresta CEO Ping Wu — voice + CS agent architecture<span class="item-time">~1h</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="vpg">
+  <div class="item-content">
+    <a class="item-title" href="https://thenuancedperspective.substack.com/p/a-practitioners-guide-to-voice-agents" target="_blank" rel="noopener">Reganti et al.: A Practitioner's Guide to Voice Agents in 2026<span class="item-time">25m</span></a>
+  </div>
+</div>
+
+<h2>Stage 1: Foundations <span class="time">~9h</span></h2>
+
+<h3>LLM internals</h3>
+
+<div class="item">
+  <input type="checkbox" id="s1a">
+  <div class="item-content">
+    <a class="item-title" href="https://www.youtube.com/watch?v=7xTGNNLPyMI" target="_blank" rel="noopener">Karpathy: Deep Dive into LLMs like ChatGPT<span class="item-time">2.5h at 1.5x</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="s1c">
+  <div class="item-content">
+    <a class="item-title" href="https://www.3blue1brown.com/lessons/gpt" target="_blank" rel="noopener">3Blue1Brown ch 5: Visual intro to Transformers<span class="item-time">27m</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="s1d">
+  <div class="item-content">
+    <a class="item-title" href="https://www.3blue1brown.com/lessons/attention" target="_blank" rel="noopener">3Blue1Brown ch 6: Attention in transformers<span class="item-time">26m</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="s1e">
+  <div class="item-content">
+    <a class="item-title" href="https://newsletter.maartengrootendorst.com/p/a-visual-guide-to-reasoning-llms" target="_blank" rel="noopener">Maarten Grootendorst: A Visual Guide to Reasoning LLMs (diagram-heavy, desk read)<span class="item-time">30m</span></a>
+  </div>
+</div>
+
+<h3>Retrieval &amp; RAG</h3>
+
+<div class="item">
+  <input type="checkbox" id="rag1">
+  <div class="item-content">
+    <a class="item-title" href="https://hamel.dev/notes/llm/rag/p1-intro.html" target="_blank" rel="noopener">Hamel Husain: I don't use RAG, I just retrieve documents (P1)<span class="item-time">30m</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="rag2">
+  <div class="item-content">
+    <a class="item-title" href="https://www.anthropic.com/news/contextual-retrieval" target="_blank" rel="noopener">Anthropic: Contextual Retrieval (49–67% retrieval-failure reduction)<span class="item-time">30m</span></a>
+  </div>
+</div>
+
+<h3>Agent architecture &amp; harnesses</h3>
+
+<div class="item">
+  <input type="checkbox" id="s1b">
+  <div class="item-content">
+    <a class="item-title" href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener">Anthropic: Building Effective Agents<span class="item-time">1h</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="s1h">
+  <div class="item-content">
+    <a class="item-title" href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank" rel="noopener">Anthropic: Effective context engineering for AI agents<span class="item-time">30m</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="s1i">
+  <div class="item-content">
+    <a class="item-title" href="https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents" target="_blank" rel="noopener">Anthropic: Effective harnesses for long-running agents<span class="item-time">30m</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="s1j">
+  <div class="item-content">
+    <a class="item-title" href="https://www.anthropic.com/engineering/multi-agent-research-system" target="_blank" rel="noopener">Anthropic: How we built our multi-agent research system<span class="item-time">40m</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="s1k">
+  <div class="item-content">
+    <a class="item-title" href="https://cognition.ai/blog/dont-build-multi-agents" target="_blank" rel="noopener">Cognition: Don't Build Multi-Agents (counter to Anthropic — read paired)<span class="item-time">30m</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="s2d">
+  <div class="item-content">
+    <a class="item-title" href="https://www.leoniemonigatti.com/blog/ai-agent-from-scratch-in-python.html" target="_blank" rel="noopener">Leonie Monigatti: Building an AI agent from scratch in Python<span class="item-time">45m</span></a>
+  </div>
+</div>
+
+<h2>Stage 2: How practitioners think <span class="time">~8.5h</span></h2>
+
+<div class="item">
+  <input type="checkbox" id="s2a">
+  <div class="item-content">
+    <a class="item-title" href="https://eugeneyan.com/writing/llm-patterns/" target="_blank" rel="noopener">Eugene Yan: Patterns for LLM Systems<span class="item-time">1.5h</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="s2b">
+  <div class="item-content">
+    <a class="item-title" href="https://hamel.dev/blog/posts/evals/" target="_blank" rel="noopener">Hamel Husain: Your AI Product Needs Evals<span class="item-time">1h</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="s2c">
+  <div class="item-content">
+    <a class="item-title" href="https://hamel.dev/blog/posts/field-guide/" target="_blank" rel="noopener">Hamel Husain: Field Guide to Improving AI Products<span class="item-time">1h</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="s2e">
+  <div class="item-content">
+    <a class="item-title" href="https://dev.to/young_gao/rag-is-not-dead-advanced-retrieval-patterns-that-actually-work-in-2026-2gbo" target="_blank" rel="noopener">DEV.to: RAG Is Not Dead — Advanced Retrieval Patterns in 2026<span class="item-time">30m</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="ps1">
+  <div class="item-content">
+    <a class="item-title" href="https://www.lennysnewsletter.com/p/how-to-build-ai-product-sense" target="_blank" rel="noopener">Lenny + Tal Raviv &amp; Aman Khan: How to build AI product sense<span class="item-time">1.5h</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="ps2">
+  <div class="item-content">
+    <a class="item-title" href="https://www.bvp.com/atlas/the-ai-pricing-and-monetization-playbook" target="_blank" rel="noopener">Bessemer: The AI pricing and monetization playbook<span class="item-time">30m</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="p3">
+  <div class="item-content">
+    <a class="item-title" href="https://www.oreilly.com/radar/what-we-learned-from-a-year-of-building-with-llms-part-i/" target="_blank" rel="noopener">A Year of Building with LLMs — Tactical (Part 1)<span class="item-time">40m</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="p4">
+  <div class="item-content">
+    <a class="item-title" href="https://www.oreilly.com/radar/what-we-learned-from-a-year-of-building-with-llms-part-ii/" target="_blank" rel="noopener">A Year of Building with LLMs — Operational (Part 2)<span class="item-time">30m</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="p5">
+  <div class="item-content">
+    <a class="item-title" href="https://www.oreilly.com/radar/what-we-learned-from-a-year-of-building-with-llms-part-iii-strategy/" target="_blank" rel="noopener">A Year of Building with LLMs — Strategy (Part 3)<span class="item-time">25m</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="o1">
+  <div class="item-content">
+    <a class="item-title" href="https://www.microsoft.com/en-us/haxtoolkit/ai-guidelines/" target="_blank" rel="noopener">Microsoft HAX Guidelines<span class="item-time">30m browse</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="mm1">
+  <div class="item-content">
+    <a class="item-title" href="https://www.intercom.com/blog/design-ux-machine-learning-ai/" target="_blank" rel="noopener">Molly Mahar: A new age of UX<span class="item-time">20m</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="mm2">
+  <div class="item-content">
+    <a class="item-title" href="https://ideas.fin.ai/p/five-hard-truths-about-building-ai" target="_blank" rel="noopener">Molly Mahar: Five hard truths about building AI products<span class="item-time">25m</span></a>
+  </div>
+</div>
+
+<h2>Stage 4: Practice <span class="time">3h</span></h2>
+
+<div class="item">
+  <input type="checkbox" id="s4a">
+  <div class="item-content">
+    <a class="item-title" href="/mock-design-exercise">Mock AI design exercise<span class="item-time">2h</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="s4b">
+  <div class="item-content">
+    <span class="item-title plain">Draft your own "How I think about designing AI behavior" doc<span class="item-time">1h</span></span>
+  </div>
+</div>
+
+<h2>Stage 5: Long-term <span class="time">weeks</span></h2>
+
+<h3>Textbook</h3>
+<div class="item">
+  <input type="checkbox" id="p1">
+  <div class="item-content">
+    <a class="item-title" href="https://www.oreilly.com/library/view/ai-engineering/9781098166298/" target="_blank" rel="noopener">Chip Huyen: AI Engineering<span class="item-time">16h, one chapter every few days</span></a>
+  </div>
+</div>
+
+<h3>Going deeper</h3>
+<div class="item">
+  <input type="checkbox" id="p6">
+  <div class="item-content">
+    <a class="item-title" href="https://karpathy.ai/" target="_blank" rel="noopener">Karpathy: Neural Networks Zero to Hero<span class="item-time">10+h</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="p16">
+  <div class="item-content">
+    <a class="item-title" href="https://www.youtube.com/watch?v=3gb-ZkVRemQ" target="_blank" rel="noopener">Stanford CS25: Jason Wei &amp; Hyung Won Chung (OpenAI) — Intuitions on LMs, Shaping the Future of AI<span class="item-time">~1h</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="p7">
+  <div class="item-content">
+    <a class="item-title" href="https://maven.com/parlance-labs/evals" target="_blank" rel="noopener">Hamel &amp; Shreya: AI Evals course<span class="item-time">multi-week</span></a>
+  </div>
+</div>
+
+<h3>Courses</h3>
+<div class="item">
+  <input type="checkbox" id="p13">
+  <div class="item-content">
+    <a class="item-title" href="https://www.reforge.com/courses/ai-product-leadership" target="_blank" rel="noopener">Reforge: AI Product Leadership<span class="item-time">multi-week</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="p14">
+  <div class="item-content">
+    <a class="item-title" href="https://www.reforge.com/courses/ai-strategy" target="_blank" rel="noopener">Reforge: AI Strategy<span class="item-time">multi-week</span></a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="p15">
+  <div class="item-content">
+    <a class="item-title" href="https://maven.com/product-faculty/ai-product-management-certification" target="_blank" rel="noopener">Maven: Product Faculty — AI Product Management Certification (Varma + Shi)<span class="item-time">6–7wk cohort</span></a>
+  </div>
+</div>
+
+<h3>Ongoing</h3>
+<div class="item">
+  <input type="checkbox" id="p10">
+  <div class="item-content">
+    <a class="item-title" href="https://simonwillison.net/" target="_blank" rel="noopener">Simon Willison's blog</a>
+  </div>
+</div>
+
+<div class="item">
+  <input type="checkbox" id="p11">
+  <div class="item-content">
+    <a class="item-title" href="https://eugeneyan.com/" target="_blank" rel="noopener">Eugene Yan's blog</a>
+  </div>
+</div>
+
+<div class="controls">
+  <span class="footer-note" id="sync-indicator">Saved</span>
+  <button class="reset" onclick="if(confirm('Clear all progress?')){resetAll();}">Reset progress</button>
+</div>
+
+<script>
+// Progress + collapsed state are stored in localStorage only.
+// No backend, no accounts — state lives in this browser.
+const STORAGE_KEY = 'ai-learning-plan-public';
+const COLLAPSE_KEY = 'ai-learning-plan-public-collapsed';
+const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+const progressEl = document.getElementById('progress');
+const statsEl    = document.getElementById('stats');
+const syncEl     = document.getElementById('sync-indicator');
+
+let collapsed = {};
+try { collapsed = JSON.parse(localStorage.getItem(COLLAPSE_KEY) || '{}'); } catch {}
+
+function sectionKey(h2) {
+  return h2.textContent.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 30);
+}
+
+function setCollapsedUI(h2, wrapper, isCollapsed) {
+  h2.classList.toggle('collapsed', isCollapsed);
+  wrapper.style.display = isCollapsed ? 'none' : '';
+}
+
+function setupSections() {
+  document.querySelectorAll('h2').forEach((h2) => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'section-body';
+
+    let next = h2.nextElementSibling;
+    while (next && next.tagName !== 'H2' && !next.classList?.contains('controls')) {
+      const move = next;
+      next = next.nextElementSibling;
+      wrapper.appendChild(move);
+    }
+    h2.parentNode.insertBefore(wrapper, next);
+
+    const key = sectionKey(h2);
+    setCollapsedUI(h2, wrapper, !!collapsed[key]);
+
+    h2.addEventListener('click', () => {
+      const isCollapsed = !h2.classList.contains('collapsed');
+      setCollapsedUI(h2, wrapper, isCollapsed);
+      collapsed[key] = isCollapsed;
+      save();
+    });
+  });
+}
+
+setupSections();
+
+let syncTimer;
+function showSync(msg) {
+  syncEl.textContent = msg;
+  syncEl.classList.add('show');
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(() => syncEl.classList.remove('show'), 1800);
+}
+
+function getBoxes() {
+  const s = {};
+  checkboxes.forEach(cb => { s[cb.id] = cb.checked; });
+  return s;
+}
+
+function applyBoxes(boxes) {
+  if (!boxes) boxes = {};
+  checkboxes.forEach(cb => {
+    cb.checked = !!boxes[cb.id];
+    cb.closest('.item').classList.toggle('done', cb.checked);
+  });
+  updateProgress();
+}
+
+function updateProgress() {
+  const total = checkboxes.length;
+  const done  = Array.from(checkboxes).filter(cb => cb.checked).length;
+  progressEl.style.width = (total ? done / total * 100 : 0) + '%';
+  statsEl.textContent = done + ' of ' + total + ' done';
+}
+
+function save() {
+  const boxes = getBoxes();
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(boxes));
+  localStorage.setItem(COLLAPSE_KEY, JSON.stringify(collapsed));
+  showSync('Saved');
+}
+
+function load() {
+  try {
+    applyBoxes(JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'));
+  } catch { updateProgress(); }
+}
+
+function resetAll() {
+  localStorage.removeItem(STORAGE_KEY);
+  localStorage.removeItem(COLLAPSE_KEY);
+  location.reload();
+}
+
+checkboxes.forEach(cb => {
+  cb.addEventListener('change', () => {
+    cb.closest('.item').classList.toggle('done', cb.checked);
+    updateProgress();
+    save();
+  });
+});
+
+load();
+</script>
+
+</body>
+</html>
