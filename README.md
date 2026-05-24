@@ -2,7 +2,7 @@
 
 A curated, ruthlessly filtered curriculum for product designers moving into AI work — built around the question *"what do I actually need to know to be a Staff-level AI designer?"*
 
-Live at **[ai-learning-plan-public.vercel.app](https://ai-learning-plan-public.vercel.app/)** (or whatever URL you've deployed it to).
+**Live: [ai-learning-plan-public.vercel.app](https://ai-learning-plan-public.vercel.app/)**
 
 ## What's in it
 
