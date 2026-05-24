@@ -6,15 +6,13 @@ A curated, ruthlessly filtered curriculum for product designers moving into AI w
 
 ## What's in it
 
-Five stages plus a "listen while you walk" bucket for podcasts:
+Four sequential stages plus an optional listening bucket:
 
-- **Listen while you walk / run** — commute-friendly podcast picks
 - **Stage 1: Foundations** (~9h) — LLM internals, retrieval/RAG, agent architecture & harnesses
 - **Stage 2: How practitioners think** (~8.5h) — eval discipline, building patterns, AI product sense
-- **Stage 4: Practice** (~3h) — a mock AI design exercise + writing your own design philosophy doc
-- **Stage 5: Long-term** (weeks) — textbook, deeper video courses, ongoing newsletters
-
-(Stage 3 in the original personal version was "voices from inside the team" — internal docs only available to people at one specific company. Removed here, so numbering jumps.)
+- **Stage 3: Practice** (~3h) — a mock AI design exercise + writing your own design philosophy doc
+- **Stage 4: Long-term** (weeks) — textbook, deeper video courses, ongoing newsletters
+- **Optional listening** — podcasts, talks, and listenable articles for commutes / walks
 
 ## Curation principle
 
